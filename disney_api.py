@@ -10,7 +10,7 @@ class Attraction(object):
         # [Closed, Operating, SeeTimesGuide, Down]
         self.status = wait_time_obj['status']
 
-        self.wait_minutes = wait_time_obj.get('postedWaitMinutes', 0)
+        self._wait_minutes = wait_time_obj.get('postedWaitMinutes', 0)
 
         self._fastpass_available = wait_time_obj['fastPass']['available']
         self._fastpass_start_time = wait_time_obj['fastPass'].get('startTime')
@@ -29,6 +29,13 @@ class Attraction(object):
             return True
         else:
             return False
+
+    @property
+    def wait_minutes(self):
+        if self.status == 'Closed':
+            return 0
+        else:
+            return self._wait_minutes
 
     def __repr__(self):
         return '%s - %s, %s' % (self.name, self.status, self.wait_minutes)
