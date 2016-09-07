@@ -24,3 +24,5 @@ The grafana dashboard template locates at `wait4disney/grafana.json`, you can
 import it to give a try.
 
 ## Grafana Snapshot
+
+![wait4disney](https://raw.githubusercontent.com/gtt116/wait4disney/master/doc/snapshot.png)
