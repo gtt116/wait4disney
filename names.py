@@ -54,3 +54,7 @@ NAMES = {
 	'MeetDarthVader': '星球大战远征基地的达斯.维达/星球大战远征基地/银河帝国贸易站',
 	'MillenniumFalcon': '千年隼号/星球大战远征基地/银河帝国贸易站',
 }
+
+
+def translate(en):
+    return NAMES.get(en, en)
