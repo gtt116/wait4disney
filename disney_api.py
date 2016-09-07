@@ -1,0 +1,96 @@
+import requests
+
+
+class Attraction(object):
+
+    def __init__(self, json_obj):
+        self._json_obj = json_obj
+
+        wait_time_obj = json_obj['waitTime']
+        # [Closed, Operating, SeeTimesGuide, Down]
+        self.status = wait_time_obj['status']
+
+        self.wait_minutes = wait_time_obj.get('postedWaitMinutes', 0)
+
+        self._fastpass_available = wait_time_obj['fastPass']['available']
+        self._fastpass_start_time = wait_time_obj['fastPass'].get('startTime')
+        self._fastpass_end_time = wait_time_obj['fastPass'].get('endTime')
+
+        self.single_rider = wait_time_obj['singleRider']
+        self.id = json_obj['id']
+
+        # eg:
+        # 1882;entityType=Attraction;destination=shdr
+        # attAliceWonderlandMaze;entityType=Attraction;destination=shdr
+        self.name = self.id.split(';', 1)[0].replace('att', '')
+
+    def can_fastpass(self):
+        if self._fastpass_available and self._fastpass_start_time != 'FASTPASSisNotAvailable':
+            return True
+        else:
+            return False
+
+    def __repr__(self):
+        return '%s - %s, %s' % (self.name, self.status, self.wait_minutes)
+
+
+def get_token():
+    headers = {
+        'Host': 'authorization.shanghaidisneyresort.com',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        'X-NewRelic-ID': 'Uw4BWVZSGwICU1VRAgkH',
+        'X-Conversation-Id': 'shdrA5320488-E03F-4795-A818-286C658EEBB6',
+        'Accept': 'application/json',
+        'User-Agent': 'SHDR/4.1.1 (iPhone; iOS 9.3.5; Scale/2.00)',
+        'Accept-Language': 'zh-Hans-CN;q=1',
+    }
+
+    data = 'assertion_type=public&client_id=DPRD-SHDR.MOBILE.IOS-PROD&client_secret=&grant_type=assertion'
+
+    resp = requests.post('https://authorization.shanghaidisneyresort.com/curoauth/v1/token',
+                         headers=headers, data=data)
+    token = resp.json()['access_token']
+    return token
+
+
+def get_wait_time_list():
+    """
+    The item in entries schema:
+
+        {
+            u'waitTime': {
+                u'status': u'Down',  # or u'Operating'
+                u'postedWaitMinutes': 5,
+                u'fastPass': {
+                    u'available': True,
+                    u'endTime': u'13: 45: 00',
+                    u'startTime': u'12: 45: 00'
+                },
+                u'singleRider': True
+            },
+            u'id': u'attTronLightcyclePowerRun;entityType=Attraction;destination=shdr'
+        },
+    """
+    token = get_token()
+    headers = {
+        'Host': 'apim.shanghaidisneyresort.com',
+        'X-Conversation-Id': 'shdrA5320488-E03F-4795-A818-286C658EEBB6',
+        'Accept': '*/*',
+        'User-Agent': 'SHDR/4.1.1 (iPhone; iOS 9.3.5; Scale/2.00)',
+        'Accept-Language': 'zh-cn',
+        'Authorization': 'BEARER %s' % token,
+    }
+
+    resp = requests.get('https://apim.shanghaidisneyresort.com/facility-service/theme-parks/desShanghaiDisneyland;'
+                        'entityType=theme-park;destination=shdr/wait-times?mobile=true&region=&region=CN',
+                        headers=headers)
+    return resp.json()
+
+
+def attractions():
+    items = []
+    raw_json = get_wait_time_list()
+    for entity_json in raw_json['entries']:
+        items.append(Attraction(entity_json))
+
+    return items
