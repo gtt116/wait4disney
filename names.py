@@ -10,7 +10,7 @@ NAMES = {
 	'ChallengeTrails': '古迹探索营的绳索挑战道/古迹探索营',
 	'VistaTrail': '古迹探索营的探索步行道/古迹探索营',
 	'1879': '1879 maybe 古迹探索营/古迹探索营',
-	'OnceUponTimeAdventure ': '漫游童话时光',
+	'OnceUponTimeAdventure': '漫游童话时光',
 	'AliceWonderlandMaze': '爱丽丝梦游仙境迷宫',
 	'1882': '1882 maybe 奇幻童话城堡',
 	'HunnyPotSpin': '旋转疯蜜罐',
