@@ -1,4 +1,5 @@
 import requests
+import time
 
 
 class Attraction(object):
@@ -56,11 +57,12 @@ def get_token():
 
     resp = requests.post('https://authorization.shanghaidisneyresort.com/curoauth/v1/token',
                          headers=headers, data=data)
+    resp.raise_for_status()
     token = resp.json()['access_token']
     return token
 
 
-def get_wait_time_list():
+def get_wait_time(token):
     """
     The item in entries schema:
 
@@ -78,7 +80,6 @@ def get_wait_time_list():
             u'id': u'attTronLightcyclePowerRun;entityType=Attraction;destination=shdr'
         },
     """
-    token = get_token()
     headers = {
         'Host': 'apim.shanghaidisneyresort.com',
         'X-Conversation-Id': 'shdrA5320488-E03F-4795-A818-286C658EEBB6',
@@ -91,7 +92,19 @@ def get_wait_time_list():
     resp = requests.get('https://apim.shanghaidisneyresort.com/facility-service/theme-parks/desShanghaiDisneyland;'
                         'entityType=theme-park;destination=shdr/wait-times?mobile=true&region=&region=CN',
                         headers=headers)
+    resp.raise_for_status()
     return resp.json()
+
+
+def get_wait_time_list():
+    for _ in xrange(3):
+        try:
+            token = get_token()
+            response = get_wait_time(token)
+        except requests.HTTPError:
+            time.sleep(1)
+        else:
+            return response
 
 
 def attractions():
