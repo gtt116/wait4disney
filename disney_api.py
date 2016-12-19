@@ -101,7 +101,7 @@ def get_wait_time_list():
         try:
             token = get_token()
             response = get_wait_time(token)
-        except requests.HTTPError:
+        except (requests.HTTPError, requests.ConnectionError):
             time.sleep(1)
         else:
             return response
