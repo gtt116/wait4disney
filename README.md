@@ -25,6 +25,18 @@ You can setup a crontab job to update disney waiting queue every minute.
 The grafana dashboard template locates at `wait4disney/doc/grafana.json`, you can
 import it to give a try.
 
+## Heatmap
+
+To generate heatmap follow these steps:
+
+```
+python web.py > disney.json
+python -mSimpleHTTPServer
+```
+
+Then open your favourite web browser to http://127.0.0.1:8000/index.html.
+you can also setup a crontab to generate report every day.
+
 ## Grafana Snapshot
 
 ![wait4disney](https://raw.githubusercontent.com/gtt116/wait4disney/master/doc/snapshot.png)
