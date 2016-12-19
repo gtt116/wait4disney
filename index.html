@@ -21,6 +21,10 @@
   #next {
     float: right;
   }
+  #cal-heatmap {
+    width: 90%;
+    margin: 0 auto 40px;
+  }
   </style>
 </head>
 
@@ -33,7 +37,7 @@
 	<div id="cal-heatmap"></div>
 
 	<script type="text/javascript">
-    var monthAgo = 3;
+    var monthAgo = 2;
     var ago = new Date();
     ago.setMonth(ago.getMonth() - monthAgo)
 
@@ -46,7 +50,7 @@
       previousSelector: "#pre",
       nextSelector: "#next",
       highlight: "now",
-      domainMargin: 7,
+      domainMargin: 6,
       domainLabelFormat: "%Y-%m",
       label: {
         position: "top"
