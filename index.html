@@ -9,14 +9,30 @@
 
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/cal-heatmap/3.3.10/cal-heatmap.css" />
   <style>
+  body {
+    background: #f1f1f1;
+  }
   h1 {
     text-align: center;
+  }
+  #container {
+    margin: 10px auto;
+    max-width: 1100px;
+    box-shadow: #aaa 1px 3px 14px;
+  }
+  #cal {
+    padding: 10px 50px 50px;
+    background: #fff;
   }
   .graph-subdomain-group {
     height: 100px;
   }
   .graph-label {
     font-size: 18px;
+  }
+  #uyan_frame {
+    background: #fff;
+    padding: 50px;
   }
   #next {
     float: right;
@@ -29,56 +45,60 @@
 </head>
 
 <body>
+  <div id="container">
+    <div id="cal">
+      <h1>上海迪斯尼 - 拥挤情况热力图</h1>
+      <button id="pre">上个月</button>
+      <button id="next">下个月</button>
 
-  <h1>上海迪斯尼 - 拥挤情况热力图</h1>
-  <button id="pre">上个月</button>
-  <button id="next">下个月</button>
+      <div id="cal-heatmap"></div>
 
-	<div id="cal-heatmap"></div>
+      <script type="text/javascript">
+        var monthAgo = 2;
+        var ago = new Date();
+        ago.setMonth(ago.getMonth() - monthAgo)
 
-	<script type="text/javascript">
-    var monthAgo = 2;
-    var ago = new Date();
-    ago.setMonth(ago.getMonth() - monthAgo)
+        var cal = new CalHeatMap();
+        cal.init({
+          weekStartOnMonday: false,
+          domain: "month",
+          minDate: new Date(2016, 8),
+          subDomain: "x_day",
+          previousSelector: "#pre",
+          nextSelector: "#next",
+          highlight: "now",
+          domainMargin: 6,
+          domainLabelFormat: "%Y-%m",
+          label: {
+            position: "top"
+          },
+          tooltip: true,
+          cellSize: 40,
+          start: ago,
+          range: monthAgo + 1,
+          subDomainTextFormat: "%d",
+          subDomainDateFormat: "%Y-%m-%d %a<br/>",
+          subDomainTitleFormat: {
+            empty: "{date} 无数据",
+            filled: "{date} 拥挤度{count}",
+          },
+          data: "disney.json",
+          dataType: "json",
+          legend: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+          legendHorizontalPosition: "right",
+          legendColors: {
+            empty: "#ededed",
+            min: "#40ffd8",
+            max: "#f20013"
+          },
+        });
+      </script>
+      <!-- UY BEGIN -->
+    </div><!--cal-->
 
-    var cal = new CalHeatMap();
-    cal.init({
-      weekStartOnMonday: false,
-      domain: "month",
-      minDate: new Date(2016, 8),
-      subDomain: "x_day",
-      previousSelector: "#pre",
-      nextSelector: "#next",
-      highlight: "now",
-      domainMargin: 6,
-      domainLabelFormat: "%Y-%m",
-      label: {
-        position: "top"
-      },
-      tooltip: true,
-      cellSize: 40,
-      start: ago,
-      range: monthAgo + 1,
-      subDomainTextFormat: "%d",
-      subDomainDateFormat: "%Y-%m-%d %a<br/>",
-      subDomainTitleFormat: {
-        empty: "{date} 无数据",
-        filled: "{date} 拥挤度{count}",
-      },
-      data: "disney.json",
-      dataType: "json",
-      legend: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-      legendHorizontalPosition: "right",
-      legendColors: {
-        empty: "#ededed",
-        min: "#40ffd8",
-        max: "#f20013"
-      },
-    });
-	</script>
-  <!-- UY BEGIN -->
-  <div id="uyan_frame"></div>
-  <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2122152"></script>
-  <!-- UY END -->
+    <div id="uyan_frame"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2122152"></script>
+    <!-- UY END -->
+  </div><!--container-->
 </body>
 </html>
