@@ -7,22 +7,41 @@
     <script src="echarts.min.js"></script>
     <style>
     #container {
-      width: 80%;
+      width: 90%;
       max-width: 1200px;
       height: 500px;
       text-align:center;
       margin: 20px auto;
     }
     #main {
-			width: 100%;
+			width: 98%;
       height: 100%;
+    }
+    #explain {
+      width: 80%;
+      font-size: 14px;
+      color: #313131;
+      text-align: left;
     }
     </style>
 </head>
 <body>
+<a href="https://github.com/gtt116/wait4disney"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
     <div id="container">
       <h2>上海迪士尼排队情况</h2>
 	    <div id="main">#</div>
+      <div id="explain">
+        <p>
+        数据来自迪斯尼官方接口，没有任何认为杜撰的成分。开始统计的时间为2016年9月7日，在此之前没有数据，之后每天自动更新。
+        </p>
+        <p>
+        <b>使用技巧</b>：拖拉右下角范围选择工具，查看最拥挤或者最空闲的那几天。
+        </p>
+        <p>
+        <b>计算方法</b>：统计一天的排队时间，设定历史上最长等待时间那天的拥挤程度为1000分，历史上最短等待时间那天拥挤程度为0分，其他按比例计算得分。
+        </p>
+
+      </div>
     </div>
     <script type="text/javascript">
       var myChart = echarts.init(document.getElementById('main'));
@@ -37,11 +56,13 @@
               calculable: true,
               orient: 'horizontal',
               left: 'right',
-              top: 'bottom'
+              top: 'bottom',
+              text: ['拥挤', '空闲']
           },
 
           calendar: [
           {
+              left: 0,
               range: '2016',
               cellSize: ['auto', 20],
               dayLabel: {
@@ -56,6 +77,7 @@
               }
           },
           {
+              left: 0,
               top: 270,
               range: '2017',
               cellSize: ['auto', 20],
@@ -82,7 +104,7 @@
               calendarIndex: 1,
               data: []
           }]
-      };
+      };	
 
       myChart.setOption(option);
 
