@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width">
     <meta charset="utf-8">
     <title>生活指数</title>
     <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
@@ -14,14 +15,15 @@
       margin: 20px auto;
     }
     #main {
-			width: 98%;
       height: 100%;
     }
     #explain {
-      width: 80%;
-      font-size: 14px;
+      border-top: 1px solid #c1c1c1;
+      font-size: 16px;
       color: #313131;
       text-align: left;
+      margin-top: 25px;
+      padding-top: 20px;
     }
     </style>
 </head>
@@ -32,13 +34,14 @@
 	    <div id="main">#</div>
       <div id="explain">
         <p>
-        数据来自迪斯尼官方接口，没有任何认为杜撰的成分。开始统计的时间为2016年9月7日，在此之前没有数据，之后每天自动更新。
+        数据来自迪斯尼官方接口，没有任何杜撰的成分。 开始统计的时间为2016年9月7日，在此之前没有数据，之后每天自动更新。
         </p>
         <p>
         <b>使用技巧</b>：拖拉右下角范围选择工具，查看最拥挤或者最空闲的那几天。
         </p>
         <p>
-        <b>计算方法</b>：统计一天的排队时间，设定历史上最长等待时间那天的拥挤程度为1000分，历史上最短等待时间那天拥挤程度为0分，其他按比例计算得分。
+        <b>计算方法</b>：统计一天的排队时间，设定历史上最长等待时间那天的拥挤程度为1000分，
+        历史上最短等待时间那天拥挤程度为0分，其他按比例计算得分。
         </p>
 
       </div>
@@ -51,6 +54,9 @@
               position: 'top'
           },
           visualMap: {
+              type: 'piecewise',
+              itemSymbol : 'triangle',
+              splitNumber: 6,
               min: 0,
               max: 1000,
               calculable: true,
