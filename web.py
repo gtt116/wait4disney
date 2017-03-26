@@ -26,12 +26,14 @@ def main():
         if sum_value > top:
             top = sum_value
 
+    datas = []
     for point in result.get_points():
-        time = to_timestamp(point['time'])
+        time = point['time']
         sum_value = point['sum']
-        payload[time] = 100 * sum_value / top
+        value = 1000 * sum_value / top
+        datas.append([time, value])
 
-    print json.dumps(payload, indent=2)
+    print json.dumps(datas, indent=2)
 
 
 if __name__ == '__main__':

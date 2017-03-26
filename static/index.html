@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>生活指数</title>
+    <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="echarts.min.js"></script>
+    <style>
+    #container {
+      width: 80%;
+      max-width: 1200px;
+      height: 500px;
+      text-align:center;
+      margin: 20px auto;
+    }
+    #main {
+			width: 100%;
+      height: 100%;
+    }
+    </style>
+</head>
+<body>
+    <div id="container">
+      <h2>上海迪士尼排队情况</h2>
+	    <div id="main">#</div>
+    </div>
+    <script type="text/javascript">
+      var myChart = echarts.init(document.getElementById('main'));
+
+      option = {
+          tooltip: {
+              position: 'top'
+          },
+          visualMap: {
+              min: 0,
+              max: 1000,
+              calculable: true,
+              orient: 'horizontal',
+              left: 'right',
+              top: 'bottom'
+          },
+
+          calendar: [
+          {
+              range: '2016',
+              cellSize: ['auto', 20],
+              dayLabel: {
+                nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                firstDay: 1
+              },
+              monthLabel: {
+                nameMap: 'cn'
+              },
+              yearLabel: {
+                position: 'top'
+              }
+          },
+          {
+              top: 270,
+              range: '2017',
+              cellSize: ['auto', 20],
+              dayLabel: {
+                nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                firstDay: 1
+              },
+              monthLabel: {
+                nameMap: 'cn'
+              },
+              yearLabel: {
+                position: 'top'
+              }
+          }],
+
+          series: [{
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              calendarIndex: 0,
+              data: []
+          }, {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              calendarIndex: 1,
+              data: []
+          }]
+      };
+
+      myChart.setOption(option);
+
+      $.get('disney.json').done(function (data) {
+          myChart.setOption({
+            series: [
+            {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              calendarIndex: 0,
+              data: data
+            },
+            {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              calendarIndex: 1,
+              data: data
+            }
+            ]
+          })
+      });
+
+    </script>
+</body>
+</html>
