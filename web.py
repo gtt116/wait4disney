@@ -1,3 +1,4 @@
+import logging
 import sys
 import json
 from datetime import datetime
@@ -5,6 +6,11 @@ from datetime import timedelta
 
 import main as backend
 import names as name_map
+
+logging.basicConfig(format='[%(asctime)s] ' + logging.BASIC_FORMAT)
+logging.BASIC_FORMAT = "%(levelname)s:%(name)s:%(message)s"
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
 
 
 def to_timestamp(time_str):
@@ -17,6 +23,7 @@ def format_date(dt):
 
 
 def year():
+    log.debug("Get data from influxdb.")
     db = backend.get_influxdb()
 
     result = db.query(
@@ -29,13 +36,14 @@ def year():
 
     top = 0
 
-    # find the top sum value
+    log.debug("Find the top sum value.")
     for point in result.get_points():
         sum_value = point['sum']
 
         if sum_value > top:
             top = sum_value
 
+    log.debug("Generating points.")
     datas = []
     for point in result.get_points():
         time = point['time']
@@ -116,4 +124,7 @@ if __name__ == '__main__':
         'day': get_day_top,
         'many_days': many_days,
     }
-    cmd_map[cmd]()
+    try:
+        cmd_map[cmd]()
+    except Exception:
+        log.exception('calling %s failed' % cmd)
