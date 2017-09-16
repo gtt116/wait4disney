@@ -4,3 +4,4 @@ venv/
 .ropeproject/
 log
 wrapper.py
+web.log
