@@ -32,7 +32,7 @@
 
     #year {
       margin-top: 40px;
-      height: 500px;
+      height: 700px;
     }
 
     #day {
@@ -227,6 +227,22 @@
                 yearLabel: {
                   position: 'top'
                 }
+            },
+            {
+                left: 40,
+                top: 520,
+                range: '2018',
+                cellSize: ['auto', 20],
+                dayLabel: {
+                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                  firstDay: 1
+                },
+                monthLabel: {
+                  nameMap: 'cn'
+                },
+                yearLabel: {
+                  position: 'top'
+                }
             }],
 
             series: [
@@ -240,6 +256,12 @@
                 type: 'heatmap',
                 coordinateSystem: 'calendar',
                 calendarIndex: 1,
+                data: data
+              },
+              {
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                calendarIndex: 2,
                 data: data
               }
             ]
