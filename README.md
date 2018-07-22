@@ -39,4 +39,4 @@ you can also setup a crontab to generate report every day.
 
 ## Web Snapshot
 
-![wait](https://raw.githubusercontent.com/gtt116/wait4disney/master/doc/demo.png)
+![wait](https://raw.githubusercontent.com/gtt116/wait4disney/master/doc/snapshot2018.png)
