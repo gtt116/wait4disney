@@ -29,26 +29,18 @@ def year():
     result = db.query(
         """
         SELECT
-        sum("value")
+        mean("value")
         FROM "wait_minutes"
         where time >= '2016-09-07' GROUP BY time(1d) fill(0);
         """)
 
-    top = 0
-
-    log.debug("Find the top sum value.")
-    for point in result.get_points():
-        sum_value = point['sum']
-
-        if sum_value > top:
-            top = sum_value
-
-    log.debug("Generating points.")
+    # Since the max value of `mean` is about 27.9, so we set the max
+    # of frontend graph to 30 is enough.
+    log.debug("Generating points")
     datas = []
     for point in result.get_points():
         time = point['time']
-        sum_value = point['sum']
-        value = 1000 * sum_value / top
+        value = "%.2f" % point['mean']
         datas.append([time, value])
 
     print json.dumps(datas)

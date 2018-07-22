@@ -173,7 +173,11 @@
         option = {
             title: {text: '年度热力图'},
             tooltip: {
-                position: 'top'
+                position: 'top',
+                formatter: function (p) {
+                  var format = echarts.format.formatTime('yyyy-MM-dd', p.data[0]);
+                  return format + '</br>平均等待' + p.data[1] + "分钟";
+                }
             },
             toolbox: {
                 feature: {
@@ -186,7 +190,7 @@
                 itemSymbol : 'triangle',
                 splitNumber: 6,
                 min: 0,
-                max: 1000,
+                max: 30,
                 calculable: true,
                 orient: 'horizontal',
                 left: 'center',
