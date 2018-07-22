@@ -114,3 +114,7 @@ def attractions():
         items.append(Attraction(entity_json))
 
     return items
+
+if __name__ == '__main__':
+    for x in attractions():
+        print x
