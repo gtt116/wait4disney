@@ -96,6 +96,10 @@
         console.debug("get date report: " + date)
 
         var dayChart = echarts.init(document.getElementById('day'));
+        option = {
+          title: {text: "获取" + date + "的数据中.."}
+        };
+        dayChart.setOption(option);
 
         $.getJSON(date + '.json').done(function (data) {
             option = {
