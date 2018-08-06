@@ -5,3 +5,4 @@ venv/
 log
 wrapper.py
 web.log
+*.egg-info/
