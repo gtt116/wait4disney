@@ -1,24 +1,29 @@
+import logging
+
 from disney.client import api
 from disney.client import names
 
 import influxdb
 
+log = logging.getLogger(__name__)
+
 
 def make_datas():
     datapoints = []
     for a in api.attractions():
+        zh_name = names.translate(a.name)
         datapoint = {
             "measurement": "wait_minutes",
             "tags": {
                 "name": a.name,
-                "name_zh": names.translate(a.name),
+                "name_zh": zh_name,
             },
             "fields": {
                 "value": a.wait_minutes,
             },
         }
         datapoints.append(datapoint)
-        print datapoint
+        log.info("%s wait: %sm" % (zh_name, a.wait_minutes))
 
     return datapoints
 
@@ -42,4 +47,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as ex:
+        log.exception("exception")

@@ -1,2 +1,12 @@
-requests
-influxdb
+certifi==2018.4.16
+chardet==3.0.4
+contextlib2==0.5.5
+idna==2.7
+influxdb==5.2.0
+pkg-resources==0.0.0
+python-dateutil==2.7.3
+pytz==2018.5
+raven==6.9.0
+requests==2.19.1
+six==1.11.0
+urllib3==1.23

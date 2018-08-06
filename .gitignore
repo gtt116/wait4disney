@@ -6,3 +6,4 @@ log
 wrapper.py
 web.log
 *.egg-info/
+disney.log

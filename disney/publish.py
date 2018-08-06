@@ -4,8 +4,9 @@ import json
 from datetime import datetime
 from datetime import timedelta
 
-import main as backend
-import names as name_map
+from disney import fetch
+from disney import history
+from disney.client import names as name_map
 
 log = logging.getLogger(__name__)
 
@@ -20,16 +21,20 @@ def format_date(dt):
 
 
 def year():
-    log.debug("Get data from influxdb.")
-    db = backend.get_influxdb()
+    db = fetch.get_influxdb()
+    last = history.get_latest_yearly()
+    if not last:
+        # This project's birthday
+        last = "2016-09-01"
+    log.debug("Get data from %s." % last)
 
     result = db.query(
         """
         SELECT
         mean("value")
         FROM "wait_minutes"
-        where time >= '2016-09-07' GROUP BY time(1d) fill(0);
-        """)
+        where time >= '%s' GROUP BY time(1d) fill(0);
+        """ % last)
 
     # Since the max value of `mean` is about 27.9, so we set the max
     # of frontend graph to 30 is enough.
@@ -38,9 +43,8 @@ def year():
     for point in result.get_points():
         time = point['time']
         value = "%.2f" % point['mean']
-        datas.append([time, value])
+        history.update_yearly(time, value )
 
-    print json.dumps(datas)
 
 
 def get_day_top(date=None, top=25):
@@ -48,7 +52,7 @@ def get_day_top(date=None, top=25):
         date = datetime.now()
         date = date.replace(hour=0, minute=0, second=0, microsecond=0)
 
-    db = backend.get_influxdb()
+    db = fetch.get_influxdb()
     start = date
     end = date + timedelta(days=1)
     iql = '''
@@ -83,35 +87,25 @@ def get_day_top(date=None, top=25):
         mean_values.append(row[1])
         max_values.append(row[2])
 
+    short_date = format_date(date)
     ret = {
-        'date': format_date(date),
+        'date': short_date,
         'games': games,
         'max': max_values,
         'mean': mean_values
     }
-    print json.dumps(ret)
-
-
-def many_days():
-    dt = datetime(2016, 9, 7)
-    while dt <= datetime(2017, 3, 27):
-        ret = get_day_top(dt)
-        with file('%s.json' % dt.strftime('%Y-%m-%d'), 'w') as output:
-            print output
-            output.write(ret)
-        dt += timedelta(days=1)
+    history.update_daily(short_date, ret)
 
 
 def main():
     if len(sys.argv) != 2:
-        print "Usage: %s <year|day|many_days>" % sys.argv[0]
+        print("Usage: %s <year|day>" % sys.argv[0])
         sys.exit(1)
 
     cmd = sys.argv[1]
     cmd_map = {
         'year': year,
         'day': get_day_top,
-        'many_days': many_days,
     }
     try:
         cmd_map[cmd]()
