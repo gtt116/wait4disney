@@ -1,5 +1,5 @@
-import disney_api as api
-import names
+from disney.client import api
+from disney.client import names
 
 import influxdb
 

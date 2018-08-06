@@ -7,10 +7,7 @@ from datetime import timedelta
 import main as backend
 import names as name_map
 
-logging.basicConfig(format='[%(asctime)s] ' + logging.BASIC_FORMAT)
-logging.BASIC_FORMAT = "%(levelname)s:%(name)s:%(message)s"
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
 
 
 def to_timestamp(time_str):
@@ -105,7 +102,7 @@ def many_days():
         dt += timedelta(days=1)
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) != 2:
         print "Usage: %s <year|day|many_days>" % sys.argv[0]
         sys.exit(1)
