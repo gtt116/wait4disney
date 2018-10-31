@@ -19,13 +19,13 @@ def to_timestamp(time_str):
 def format_date(dt):
     return dt.strftime('%Y-%m-%d')
 
+def get_last_date():
+    last = datetime.now() - timedelta(days=14)
+    return last.strftime('%Y-%m-%d')
 
 def year():
     db = fetch.get_influxdb()
-    last = history.get_latest_yearly()
-    if not last:
-        # This project's birthday
-        last = "2016-09-01"
+    last = get_last_date()
     log.debug("Get data from %s." % last)
 
     result = db.query(
