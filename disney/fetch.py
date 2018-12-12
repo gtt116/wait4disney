@@ -2,6 +2,7 @@ import logging
 
 from disney.client import api
 from disney.client import names
+from disney import config
 
 import influxdb
 
@@ -29,14 +30,10 @@ def make_datas():
 
 
 def get_influxdb():
-    host = 'localhost'
-    port = 8086
-    user = 'root'
-    password = 'root'
-    dbname = 'disney'
-
-    db = influxdb.InfluxDBClient(host, port, user, password, dbname)
-    db.create_database(dbname)
+    db = influxdb.InfluxDBClient(config.INFLUXDB_HOST, config.INFLUXDB_PORT,
+                                 config.INFLUXDB_USER, config.INFLUXDB_PASS,
+                                 config.INFLUXDB_DB)
+    db.create_database(config.INFLUXDB_DB)
     return db
 
 
