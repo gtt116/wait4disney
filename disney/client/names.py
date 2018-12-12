@@ -53,6 +53,9 @@ NAMES = {
 	'EncounterKyloRen': u'星球大战远征基地的凯洛.伦/星球大战远征基地/银河帝国贸易站',
 	'MeetDarthVader': u'星球大战远征基地的达斯.维达/星球大战远征基地/银河帝国贸易站',
 	'MillenniumFalcon': u'千年隼号/星球大战远征基地/银河帝国贸易站',
+    'RexsRCRacer': u'抱抱龙冲天赛车',
+    'SlinkyDogSpin': u'弹簧狗团团转',
+    'WoodysRoundUp': u'胡迪牛仔嘉年华'
 }
 
 
