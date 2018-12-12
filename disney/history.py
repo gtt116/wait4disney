@@ -5,9 +5,11 @@ import os
 import logging
 import json
 
+from disney import config
+
 log = logging.getLogger(__name__)
 
-PATH = "/var/www/static/disney"
+PATH = config.REPORT_PATH
 YEAR_PATH = os.path.join(PATH, "year.json")
 LATEST_PATH = os.path.join(PATH, "latest.json")
 

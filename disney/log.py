@@ -1,9 +1,11 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
+from disney import config
+
 
 def setup_logging():
-    LOG_FILE = "/home/ubuntu/wait4disney/disney.log"
+    LOG_FILE = config.LOG_FILE
 
     log_format = "%(asctime)s %(levelname)s [%(name)s] - %(message)s"
     logging.basicConfig(format=log_format)

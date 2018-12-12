@@ -16,10 +16,13 @@ Disneyland, the statistic will give me the answer.
 $ git clone git://github.com/gtt116/wait4disney
 $ cd wait4disney
 $ pip install -r requirements.txt
-$ python main.py
+$ pip install -e .
+$ disney-fetch        # This command will fetch data from disney server and insert into influxdb.
+$ disney-publish day  # This command will publish daily report.
+$ disney-publish year # This command will publish yearly report.
 ```
-The influxdb configration was hard coded at main.py, please feel free to change
-them to meet your environment.
+All config items like report path, influxdb username locate at `disney/config.py`, please feel 
+free to change it to meet your environment.
 
 You can setup a crontab job to update disney waiting queue every minute.
 The grafana dashboard template locates at `wait4disney/doc/grafana.json`, you can
