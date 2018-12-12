@@ -7,6 +7,6 @@ pkg-resources==0.0.0
 python-dateutil==2.7.3
 pytz==2018.5
 raven==6.9.0
-requests==2.19.1
+requests>=2.21.0
 six==1.11.0
 urllib3==1.23
