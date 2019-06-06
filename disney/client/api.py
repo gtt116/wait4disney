@@ -1,6 +1,8 @@
 import requests
 import time
+import logging
 
+LOG = logging.getLogger(__file__)
 
 class Attraction(object):
 
@@ -91,7 +93,9 @@ def get_wait_time(token):
 
     resp = requests.get('https://apim.shanghaidisneyresort.com/facility-service/theme-parks/desShanghaiDisneyland;'
                         'entityType=theme-park;destination=shdr/wait-times?mobile=true&region=&region=CN',
-                        headers=headers)
+                        headers=headers,
+                        verify=False,
+                        timeout=10)
     resp.raise_for_status()
     return resp.json()
 
@@ -101,7 +105,8 @@ def get_wait_time_list():
         try:
             token = get_token()
             response = get_wait_time(token)
-        except (requests.HTTPError, requests.ConnectionError):
+        except (requests.HTTPError, requests.ConnectionError) as ex:
+            LOG.error("Make request failed: %s, wait 1 second to retry." % ex)
             time.sleep(1)
         else:
             return response
@@ -110,6 +115,7 @@ def get_wait_time_list():
 def attractions():
     items = []
     raw_json = get_wait_time_list()
+    LOG.debug(raw_json)
     for entity_json in raw_json['entries']:
         items.append(Attraction(entity_json))
 
