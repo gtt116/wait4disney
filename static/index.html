@@ -47,8 +47,7 @@
     #day {
       padding-top: 30px;
       border-top: 1px solid #c1c1c1;
-      height: 1000px;
-      overflow-y: scroll;
+      height: 500px;
     }
 
     #explain {
@@ -119,7 +118,7 @@
 
         $.getJSON(date + '.json').done(function (data) {
             option = {
-              title: {text: '单日情况: ' + data['date']},
+              title: {text: '单日排队详情: ' + data['date']},
 
               toolbox: {
                   feature: {
@@ -141,31 +140,45 @@
                   }
               },
               grid: {
-                left: '15%',
-                height: '150%'
+                width: "94%",
+                left: "60px",
+                y2: 150
               },
-              xAxis: {
+              yAxis: {
                 type: 'value',
                 splitLine: {
-                  show: false
+                  show: true
                 },
+                max: 240,
+                interval: 60,
                 axisLabel: {
                   formatter: '{value} 分钟'
                 }
               },
-              yAxis: {
+              xAxis: {
                 type : 'category',
-                data: data['games']
+                inverse: true,
+                data: data['games'],
+                axisLabel: {
+                  interval:0,
+                  rotate:40
+                }
               },
               series: [
                   {
                     name: '最长等待时间',
                     type:'bar',
+                    barGap: '-100%',
                     data: data['max'],
+                    itemStyle: {
+                      normal: {
+                        color: "#37a2da"
+                      }
+                    },
                     label: {
                         normal: {
-                            position: 'right',
-                            formatter: "{c}分钟",
+                            position: 'top',
+                            formatter: "{c}m",
                             show: true
                         }
                     }
@@ -174,11 +187,16 @@
                     name: '平均等待时间',
                     type:'bar',
                     data: data['mean'],
+                    itemStyle: {
+                      normal: {
+                        color: "#32c5e9"
+                      }
+                    },
                     label: {
                         normal: {
-                            position: 'right',
-                            formatter: "{c}分钟",
-                            show: true
+                            position: 'top',
+                            formatter: "{c}m",
+                            show: false
                         }
                     }
                   }
