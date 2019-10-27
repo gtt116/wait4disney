@@ -29,11 +29,15 @@
       text-align:center;
       margin: 20px auto 70px;
     }
-    #disqus_thread {
+
+    .utterances {
+      position: relative;
+      box-sizing: border-box;
       width: 90%;
       max-width: 1200px;
       margin: 20px auto 20px;
     }
+
 
     #year {
       margin-top: 40px;
@@ -85,7 +89,16 @@
 	    <div id="year">...</div>
       <div id="day">...</div>
     </div>
-    <div id="disqus_thread"></div>
+    <div class="utterances">
+      <script src="https://utteranc.es/client.js"
+              repo="gtt116/wait4disney"
+              issue-term="pathname"
+              label="comment"
+              theme="github-light"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </div>
     <div id="footer">
       <p>
       &copy2017-2019 <a href="https://gaott.info/">gtt116</a>
@@ -318,18 +331,6 @@
         }
 
     </script>
-		<script>
-    var disqus_config = function () {
-      this.page.url = "https://s.gaott.top/disney/"
-      this.page.identifier = "wait4disney"
-		};
-		(function() { // DON'T EDIT BELOW THIS LINE
-      var d = document, s = d.createElement('script');
-      s.src = 'https://wait4disney.disqus.com/embed.js';
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-		})();
-		</script>
 
 </body>
 </html>
