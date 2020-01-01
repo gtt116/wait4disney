@@ -41,7 +41,7 @@
 
     #year {
       margin-top: 40px;
-      height: 900px;
+      height: 1200px;
     }
 
     #day {
@@ -301,6 +301,22 @@
                 yearLabel: {
                   position: 'top'
                 }
+            },
+            {
+                left: 40,
+                top: 960,
+                range: '2020',
+                cellSize: ['auto', 20],
+                dayLabel: {
+                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                  firstDay: 1
+                },
+                monthLabel: {
+                  nameMap: 'cn'
+                },
+                yearLabel: {
+                  position: 'top'
+                }
             }
             ],
 
@@ -327,6 +343,12 @@
                 type: 'heatmap',
                 coordinateSystem: 'calendar',
                 calendarIndex: 3,
+                data: data
+              },
+              {
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                calendarIndex: 4,
                 data: data
               }
 
