@@ -41,7 +41,7 @@
 
     #year {
       margin-top: 40px;
-      height: 1200px;
+      min-height: 1400px;
     }
 
     #day {
@@ -207,7 +207,44 @@
         });
       }
 
+
+
+      
       $.getJSON('year.json').done(function (data) {
+        var years = [];
+        var series = [];
+        var dt = new Date();
+        var i = 0;
+        for (year=2016; year<= dt.getFullYear(); year++) {
+          years.push({
+              top: 90 + i*220,
+              left: 40,
+              range: year,
+              cellSize: ['auto', 20],
+              dayLabel: {
+                nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+                firstDay: 1
+              },
+              monthLabel: {
+                nameMap: 'cn'
+              },
+              yearLabel: {
+                position: 'top'
+              }
+          });
+
+          series.push({
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              calendarIndex: i,
+              data: data
+          });
+
+          i++;
+        }
+
+        document.getElementById('year').style.height = 240*i + 'px';
+
         option = {
             title: {text: '年度热力图'},
             tooltip: {
@@ -237,122 +274,9 @@
                 text: ['拥挤', '空闲']
             },
 
-            calendar: [
-            {
-                top: 90,
-                left: 40,
-                range: '2016',
-                cellSize: ['auto', 20],
-                dayLabel: {
-                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                  firstDay: 1
-                },
-                monthLabel: {
-                  nameMap: 'cn'
-                },
-                yearLabel: {
-                  position: 'top'
-                }
-            },
-            {
-                left: 40,
-                top: 300,
-                range: '2017',
-                cellSize: ['auto', 20],
-                dayLabel: {
-                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                  firstDay: 1
-                },
-                monthLabel: {
-                  nameMap: 'cn'
-                },
-                yearLabel: {
-                  position: 'top'
-                }
-            },
-            {
-                left: 40,
-                top: 520,
-                range: '2018',
-                cellSize: ['auto', 20],
-                dayLabel: {
-                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                  firstDay: 1
-                },
-                monthLabel: {
-                  nameMap: 'cn'
-                },
-                yearLabel: {
-                  position: 'top'
-                }
-            },
-            {
-                left: 40,
-                top: 740,
-                range: '2019',
-                cellSize: ['auto', 20],
-                dayLabel: {
-                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                  firstDay: 1
-                },
-                monthLabel: {
-                  nameMap: 'cn'
-                },
-                yearLabel: {
-                  position: 'top'
-                }
-            },
-            {
-                left: 40,
-                top: 960,
-                range: '2020',
-                cellSize: ['auto', 20],
-                dayLabel: {
-                  nameMap: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
-                  firstDay: 1
-                },
-                monthLabel: {
-                  nameMap: 'cn'
-                },
-                yearLabel: {
-                  position: 'top'
-                }
-            }
-            ],
+            calendar: years,
 
-            series: [
-              {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                calendarIndex: 0,
-                data: data
-              },
-              {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                calendarIndex: 1,
-                data: data
-              },
-              {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                calendarIndex: 2,
-                data: data
-              },
-              {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                calendarIndex: 3,
-                data: data
-              },
-              {
-                type: 'heatmap',
-                coordinateSystem: 'calendar',
-                calendarIndex: 4,
-                data: data
-              }
-
-            ]
+            series: series
           };
 
           yearChart.setOption(option);
